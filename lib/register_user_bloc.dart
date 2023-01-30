@@ -1,0 +1,3 @@
+class RegisterUserBloc {
+  void dispose() {}
+}
