@@ -8,17 +8,18 @@ import '../utils/device_utils.dart';
 import '../model/map_model.dart';
 import '../user_profile/user_profile_screen.dart';
 
+const _initialCameraPosition = CameraPosition(
+  target: LatLng(50.27, 30.31),
+  zoom: 2.2,
+);
+
 class MapScreen extends StatelessWidget {
   const MapScreen({Key? key}) : super(key: key);
-  static const _initialCameraPosition = CameraPosition(
-    target: LatLng(50.27, 30.31),
-    zoom: 2.2,
-  );
 
   @override
   Widget build(BuildContext context) {
     return Provider(
-      create: (context) => MapBloc(navigator: Navigator.of(context)),
+      create: (context) => MapBloc(),
       dispose: (context, bloc) => bloc.dispose(),
       builder: (context, _) {
         return Scaffold(
@@ -61,8 +62,8 @@ class MapScreen extends StatelessWidget {
                     'Home',
                     style: TextStyle(fontSize: 22),
                   ),
-                  onTap: () {
-                    context.read<MapBloc>().logOut();
+                  onTap: () async {
+                    await context.read<MapBloc>().logOut(context);
                   },
                 ),
               ],

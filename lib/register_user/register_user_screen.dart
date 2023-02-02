@@ -12,7 +12,7 @@ class RegisterUserScreen extends StatelessWidget {
     return Provider<RegisterUserBloc>(
       lazy: false,
       dispose: (context, bloc) => bloc.dispose(),
-      create: (context) => RegisterUserBloc(navigator: Navigator.of(context)),
+      create: (context) => RegisterUserBloc(),
       builder: (context, _) {
         return Scaffold(
           body: Align(
@@ -32,7 +32,7 @@ class RegisterUserScreen extends StatelessWidget {
                   height: 60,
                   child: ElevatedButton(
                     onPressed: () {
-                      context.read<RegisterUserBloc>().googleLogin();
+                      context.read<RegisterUserBloc>().googleLogin(context);
                     },
                     child: const Text(
                       'Sign Up with Google',

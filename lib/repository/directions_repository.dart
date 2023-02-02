@@ -16,8 +16,15 @@ class DirectionsRepository {
             : 'https://maps.googleapis.com/maps/api/directions/json?origin=${start!.latitude},${start.longitude}&destination=${end!.latitude},${end.longitude}&key=$googleAPIKey',
       ),
     );
+
     if (response.statusCode == 200) {
-      return Directions.fromMap(jsonDecode(response.body));
+      final Map<String, dynamic> map = jsonDecode(response.body);
+      final List<dynamic> routes = map['routes'];
+      if (routes.isNotEmpty) {
+        final Map<String, dynamic> data = routes[0];
+
+        return Directions.fromMap(data);
+      }
     }
     return null;
   }

@@ -8,18 +8,17 @@ import '../map/map_screen.dart';
 import '../model/user_model.dart';
 
 class RegisterUserBloc {
-  final NavigatorState navigator;
 
-  RegisterUserBloc({required this.navigator}) {
+  RegisterUserBloc() {
     _getCurrentPosition();
   }
 
   Position? _position;
 
-  final _googleSignIn = GoogleSignIn();
+  Future googleLogin(BuildContext context) async {
+    final googleSignIn = GoogleSignIn();
 
-  Future googleLogin() async {
-    final googleUser = await _googleSignIn.signIn();
+    final googleUser = await googleSignIn.signIn();
 
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
@@ -31,10 +30,8 @@ class RegisterUserBloc {
 
     await FirebaseAuth.instance.signInWithCredential(credential);
     if (FirebaseAuth.instance.currentUser != null) {
-      _createUser(FirebaseAuth.instance.currentUser!);
-
-      navigator.pushReplacement(
-          MaterialPageRoute(builder: (context) => const MapScreen()));
+      await _createUser(FirebaseAuth.instance.currentUser!);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MapScreen()));
     }
   }
 
@@ -68,9 +65,8 @@ class RegisterUserBloc {
   }
 
   Future _createUser(User googleUser) async {
-    final docUser = FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid);
+    final docUser =
+        FirebaseFirestore.instance.collection('users').doc(googleUser.uid);
 
     if (_position != null) {
       final user = UserModel(
@@ -82,6 +78,8 @@ class RegisterUserBloc {
           id: googleUser.uid);
 
       final json = user.toJson();
+
+      print('userrrr - $user');
 
       await docUser.set(json);
     }

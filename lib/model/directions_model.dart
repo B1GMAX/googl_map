@@ -17,9 +17,7 @@ class Directions {
     required this.totalDistance,
   });
 
-  factory Directions.fromMap(Map<String, dynamic> map) {
-    final Map<String, dynamic> data = map['routes'][0];
-
+  factory Directions.fromMap(Map<String, dynamic> data) {
     String distance = '';
     double startLat = 0;
     double startLng = 0;

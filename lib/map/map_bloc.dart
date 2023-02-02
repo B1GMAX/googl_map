@@ -18,16 +18,15 @@ import '../model/user_model.dart';
 import '../register_user/register_user_screen.dart';
 
 class MapBloc {
-  final NavigatorState navigator;
-
-  MapBloc({required this.navigator}) {
+  MapBloc() {
     _startUserCollectionListener();
     _updateCurrentPosition();
     _getCurrentPosition();
   }
 
-  TextEditingController originTextController = TextEditingController();
-  TextEditingController destinationTextController = TextEditingController();
+  final TextEditingController originTextController = TextEditingController();
+  final TextEditingController destinationTextController =
+      TextEditingController();
 
   final _originMarkerController = BehaviorSubject<Marker?>();
 
@@ -64,7 +63,7 @@ class MapBloc {
 
   GoogleMapController? googleMapController;
 
-  CustomInfoWindowController customInfoWindowController =
+  final CustomInfoWindowController customInfoWindowController =
       CustomInfoWindowController();
 
   Marker? _origin;
@@ -79,8 +78,6 @@ class MapBloc {
   StreamSubscription? _listener;
 
   Timer? _timer;
-
-  final _googleSignIn = GoogleSignIn();
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -148,29 +145,34 @@ class MapBloc {
         destination: destinationTextController.text.trim(),
       );
 
-      _origin = Marker(
-          markerId: const MarkerId('origin'),
-          infoWindow: InfoWindow(title: originTextController.text.trim()),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-          position: LatLng(_info!.startLat, _info!.startLng));
+      if (_info != null) {
+        _origin = Marker(
+            markerId: const MarkerId('origin'),
+            infoWindow: InfoWindow(title: originTextController.text.trim()),
+            icon:
+                BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+            position: LatLng(_info!.startLat, _info!.startLng));
 
-      _destination = Marker(
-          markerId: const MarkerId('destination'),
-          infoWindow: InfoWindow(title: destinationTextController.text.trim()),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-          position: LatLng(_info!.endLat, _info!.endLong));
+        _destination = Marker(
+            markerId: const MarkerId('destination'),
+            infoWindow:
+                InfoWindow(title: destinationTextController.text.trim()),
+            icon:
+                BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+            position: LatLng(_info!.endLat, _info!.endLong));
 
-      markers.add(_origin!);
-      markers.add(_destination!);
+        markers.add(_origin!);
+        markers.add(_destination!);
 
-      _allMarkers.addAll(markers);
+        _allMarkers.addAll(markers);
 
-      _mapModelController.add(
-        MapModel(
-            directions: _info,
-            totalDistance: _info!.totalDistance,
-            markers: _allMarkers),
-      );
+        _mapModelController.add(
+          MapModel(
+              directions: _info,
+              totalDistance: _info!.totalDistance,
+              markers: _allMarkers),
+        );
+      }
     }
   }
 
@@ -243,12 +245,14 @@ class MapBloc {
       end: LatLng(user.latitude, user.longitude),
     );
 
-    _mapModelController.add(
-      MapModel(
-          directions: _info,
-          totalDistance: _info?.totalDistance ?? '',
-          markers: _allMarkers),
-    );
+    if (_info != null) {
+      _mapModelController.add(
+        MapModel(
+            directions: _info,
+            totalDistance: _info?.totalDistance ?? '',
+            markers: _allMarkers),
+      );
+    }
   }
 
   void clearInfo() {
@@ -265,10 +269,16 @@ class MapBloc {
     );
   }
 
-  Future logOut() async {
-    await _googleSignIn.disconnect();
-    FirebaseAuth.instance.signOut();
-    navigator.pushReplacement(
+  Future logOut(BuildContext context) async {
+    final googleSignIn = GoogleSignIn();
+
+    await _listener?.cancel();
+    _timer?.cancel();
+
+    await googleSignIn.signOut();
+    await FirebaseAuth.instance.signOut();
+
+    Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) => const RegisterUserScreen()));
   }
 
