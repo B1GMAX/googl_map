@@ -1,16 +1,5 @@
-# googl_map
+On the first screen, registration with Google is implemented
 
-A new Flutter project.
+On the second screen, the display of the current user and all users is implemented, by clicking on the user, a window opens with information about this user, and if this is not the current user, then you can click on the button and it will create a path to this user. The AppBar has a button that moves the camera to our current position. Also, you can enter an address in the input fields and it will show the path between those addresses. And there is a button that calls a retractable side menu containing a button to go to the profile screen and a button responsible for exiting the application (going to the start screen from the first item).
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The third screen displays basic information about the user: username, email and avatar.
