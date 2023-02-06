@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "469733099648",
+    "firebase_url": "https://map-38422-default-rtdb.firebaseio.com",
     "project_id": "map-38422",
     "storage_bucket": "map-38422.appspot.com"
   },
@@ -14,7 +15,23 @@
       },
       "oauth_client": [
         {
-          "client_id": "469733099648-023o98kha23pgli5jdaj77vt909p3s16.apps.googleusercontent.com",
+          "client_id": "469733099648-9rsd4r7ivjj2ueghgc77tamdfvc31vsm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.googl_map",
+            "certificate_hash": "55a4da68e6394727180e74155d026a5e42352d6f"
+          }
+        },
+        {
+          "client_id": "469733099648-hs0i6mh23m44e3db1uol76r7qrua57rl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.googl_map",
+            "certificate_hash": "ee6f9b274e1c9bcdd70b468d8a57c822a190bb4c"
+          }
+        },
+        {
+          "client_id": "469733099648-qb26rg0isg1ttjf2lumoghgk4ffcdj0o.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -29,6 +46,13 @@
             {
               "client_id": "469733099648-023o98kha23pgli5jdaj77vt909p3s16.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "469733099648-skt149ss1eu5a6ahpmm7djmjla7vhsu0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.googlMap"
+              }
             }
           ]
         }
